@@ -224,7 +224,7 @@ additional blank page is added to the back and one fewer to
 the front.  This ensures that odd-numbered folios will
 always correctly appear on recto pages.
 
-There is at present no method to specific how many blank
+There is at present no method to specify how many blank
 pages one would like at the front and how many at the back,
 because it's not clear to me why anyone would want to.  If I
 get requests to add this, it would not be difficult to do
@@ -275,7 +275,7 @@ OPTIONS
 	can simply be folded into sections.
 -n:	Selects the number of signatures per section desired.
 	Normally this will only be used for folio signatures,
-	because a single fold it often too thin to sew while binding
+	because a single fold is often too thin to sew while binding
 	without tearing.  However, makebook supports multiple
 	signatures per section for the other signature types, as
 	well.
