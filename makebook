@@ -919,7 +919,7 @@ if [ $VERBOSE -eq 1 ]
 then
 	echo "IMPOSING sections..."
 fi
-pdflatex ${OUTFILE_NAME%.pdf}.tex
+pdflatex ${OUTFILE_NAME%.pdf}.tex 2>/dev/null
 if [ $VERBOSE -eq 1 ]
 then
 	echo "CLEANING up..."
