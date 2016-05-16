@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # +AMDG  This document was begun just before Christmas,
 # 2010, and it is humbly dedicated to St. Wulfric, patron of
 # bookbinders, and to the Immaculate Heart of Mary for their
@@ -59,7 +59,7 @@ VERT_OFFSET=0
 SCALE=1
 
 # print the version information and exit successfully
-function versionfunc
+versionfunc ()
 {
 	echo "makebook v${REVISION}.  Copyright (C) 2011, Donald P."
 	echo "Goodman III."
@@ -71,7 +71,7 @@ function versionfunc
 }
 
 # print the online help and exit successfully
-function helpfunc
+helpfunc ()
 {
 cat <<End-of-help
 makebook v${REVISION}.  Copyright (C) 2011, Donald P. Goodman III.
@@ -428,8 +428,8 @@ End-of-help
 	exit 0;
 }
 
-# define a function for dealing with units; convert to bp
-function unitarg
+# define a for dealing with units; convert to bp ()
+unitarg ()
 {
 	if [ ! `echo "$1" | grep '^[\+\|-]*[0-9\.][0-9\.]*\(in\|cm\|pt\|bp\|pc\|$\)'` ]
 	then
@@ -459,9 +459,9 @@ function unitarg
 		OPTARG=${1%.*}
 	fi
 }
-# define a function for dealing with section types; convert
+# define a for dealing with section types; convert ()
 # to words; e.g., "4to" to "quarto"
-function typearg
+typearg ()
 {
 	if [ "$1" = "4to" ] || [ "$1" = "quarto" ]
 	then
@@ -495,7 +495,7 @@ function typearg
 }
 
 # clean up filename argument
-function filefunc
+filefunc ()
 {
 	err_message="ERROR:  bad characters in file name."
 	if [ `echo "$1" | grep '\?'` ]
@@ -598,12 +598,11 @@ NUM_SIGS=`expr $tmp / $PAGES_PER_SIG`
 # if extra pages are needed, generate blank page
 if [ $NUM_BLANKS -gt 0 ] && [ ! -e "./blank.pdf" ]
 then
-	echo "\documentclass{article}
-		\thispagestyle{empty}
-		\usepackage[paperwidth=${SRC_PAGE_WIDTH}bp,paperheight="${SRC_PAGE_HEIGHT}bp"]{geometry}
-		\begin{document}
-		\quad
-		\end{document}" > blank.tex
+	echo "\documentclass{article}" > blank.tex
+	echo '\\thispagestyle{empty}' >> blank.tex
+	echo "\usepackage[paperwidth=${SRC_PAGE_WIDTH}bp,paperheight="${SRC_PAGE_HEIGHT}bp"]{geometry}" >> blank.tex
+echo '\\begin{document}' >> blank.tex
+echo "\quad \end{document}" >> blank.tex
 	if [ $VERBOSE -eq 1 ]
 	then
 		echo "CREATING blank page to fill sections...";
@@ -629,8 +628,9 @@ then
 	fi
 	mv "$tmp_name" "$NEW_FILE_NAME"
 else
-	tmp=`expr $NUM_BLANKS / 2`
-	START_BLANKS=${tmp/.*}
+#	tmp=`expr $NUM_BLANKS / 2`
+#	START_BLANKS=${tmp/.*}
+	START_BLANKS=`expr $NUM_BLANKS / 2`
 	END_BLANKS=`expr $NUM_BLANKS - $START_BLANKS`
 	if [ `expr $START_BLANKS % 2` -ne 0 ]; then : else
 		START_BLANKS=`expr $START_BLANKS - 1`
@@ -909,12 +909,12 @@ rm ${tmp_name%.pdf}*
 echo "\documentclass{article}
 	\usepackage{pdfpages}
 	\usepackage[paperwidth=${TGT_PAGE_WIDTH}bp,paperheight=${TGT_PAGE_HEIGHT}bp]{geometry}
-	\pagestyle{empty}
-	\begin{document}
-	\includepdf[nup=$NUP,pages=-,turn=false,columnstrict,
+	\pagestyle{empty}" > ${OUTFILE_NAME%.pdf}.tex
+echo '\\begin{document}' >> ${OUTFILE_NAME%.pdf}.tex
+echo "\includepdf[nup=$NUP,pages=-,turn=false,columnstrict,
 	noautoscale,delta=${HORIZ_DELTA}bp ${VERT_DELTA}bp,
 	offset=${HORIZ_OFFSET}bp ${VERT_OFFSET}bp,scale=${SCALE}]
-	{./"$NEW_FILE_NAME"}\end{document}" > ${OUTFILE_NAME%.pdf}.tex
+	{./"$NEW_FILE_NAME"}\end{document}" >> ${OUTFILE_NAME%.pdf}.tex
 if [ $VERBOSE -eq 1 ]
 then
 	echo "IMPOSING sections..."
