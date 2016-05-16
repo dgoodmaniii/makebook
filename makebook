@@ -34,7 +34,7 @@
 PATH=/bin:/usr/bin:/usr/local/bin ; export PATH
 umask 033
 # define our revision number variable for rcs
-REVISION="1.0"
+REVISION="2.0"
 # define error codes
 E_WRONG_ARGS=64		# too many or few args
 E_BAD_SIG_TYPE=65	# invalid type of signature
@@ -42,6 +42,7 @@ E_BAD_UNIT=66		# unrecognized dimension unit used
 E_BAD_FILENAME=67	# filename contains insecure chars,
 			# or doesn't exist
 E_BAD_OPT=68		# bad command-line flag requested
+E_NO_PROG=69		# missing a required program
 # define usage variables
 VERBOSE=0		# 0 if not verbose, 1 if -v
 SIG_TYPE="folio"	# type of section desired
@@ -57,6 +58,24 @@ VERT_DELTA=0
 HORIZ_OFFSET=0
 VERT_OFFSET=0
 SCALE=1
+# make sure user has the right programs installed, and die
+# horribly if not
+command -v od >/dev/null 2>&1 || 
+	{ echo >&2 "makebook:  error:  requires od, but it's not installed";
+	exit $E_NO_PROG;
+	}
+command -v pdflatex >/dev/null 2>&1 || 
+	{ echo >&2 "makebook:  error:  requires pdflatex, but it's not installed";
+	exit $E_NO_PROG;
+	}
+command -v pdfinfo >/dev/null 2>&1 || 
+	{ echo >&2 "makebook:  error:  requires pdfinfo, but it's not installed";
+	exit $E_NO_PROG;
+	}
+command -v pdftk >/dev/null 2>&1 || 
+	{ echo >&2 "makebook:  error:  requires pdftk, but it's not installed";
+	exit $E_NO_PROG;
+	}
 
 # print the version information and exit successfully
 versionfunc ()
