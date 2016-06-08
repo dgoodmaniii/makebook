@@ -1,7 +1,7 @@
 ." +AMDG
 ." Process with:
 ." groff -man -Tascii makebook.1
-.TH minlib 1 "June 2016" dgoodmaniii makebook
+.TH makebook 1 "June 2016" dgoodmaniii makebook
 .SH NAME
 makebook \- impress pdf pages on sheets for folding and binding
 .SH SYNOPSIS
@@ -9,6 +9,7 @@ makebook \- impress pdf pages on sheets for folding and binding
 [\fB\-V\fR]
 [\fB\-v\fR]
 [\fB\-h\fR]
+[\fB\-f\fR]
 [\fB\-t\fR \fIsignature type\fR]
 [\fB\-n\fR \fIsignatures per section\fR]
 [\fB\-H\fR \fIheight of target page\fR]
@@ -101,6 +102,12 @@ apprised of what \fBmakebook\fR is doing.
 .BR \-h
 Print a help screen, then exit.
 .TP
+.BR \-f
+Favor the front rather than the back when filling up
+sections with blanks; that is, put more blanks in the front
+than in the back.  The default puts more blanks in the back
+than the front (unless the number is equal).
+.TP
 .BR "\-t \fIsignature type\fR"
 What type of signature you want.  You can use either the
 traditional term or the traditional abbreviation for the
@@ -191,9 +198,254 @@ should use for the result of its operations.  If omitted,
 beginning of the input file name and use that.  To use
 standard output, include this option, but give "stdout" for
 the filename.
+.SH DIMENSIONS
+.SS Default Dimensions
+.PP
+\fBmakebook\fR, as will be seen below, permits the explicit
+statement of some dimensions.  Absent such statement,
+however, default values will be assigned.  Furthermore, the
+size of the input page cannot be set explicitly; it is
+always determined automatically by the script.  This section
+explains a bit how these dimensions are determined.
+.PP
+\fBTHE SOURCE PAGE:\fR  The dimensions of the source page are
+determined very simply, by running "pdfinfo" through an awk
+filter and taking that at face value.  This has worked well
+for the author's purposes.  These dimensions cannot be set
+explicitly.
+.PP
+\fBTHE TARGET PAGE:\fR  The dimensions of the target page can be
+specified explicitly at the command line, with "-H" and
+"-w".  If they are not, however, \fBmakebook\fR does its best to
+give them sensible values.  However, I did not want makebook
+to assume a given paper size (and thus begin a letterpaper
+vs. A4 firestorm) or to assume a desired scaling (and thus
+have a default which probably ruins page quality), so it
+does so very simply.
+.PP
+\fBmakebook\fR simply multiplies the source page dimensions by
+appropriate values to ensure that the target page will be
+exactly the correct size to hold the requested type of
+signature assuming no scaling of the source page.
+.PP
+In other words, if a pdf source document is on halfletter
+paper (that is, 8.5in x 5.5in), and folio signatures are
+requested, the resulting document will be 8.5in x 11in
+(normal letter paper).  If a pdf is on letter paper, and
+folio signatures are requested, the resulting document will
+be 11in x 17in (normal ledger paper).  If a document is set
+on 5.5in x 4.25in paper (a quarter of a normal letter page),
+and quarto signatures are requested, the resulting document
+will be 8.5in x 11in (normal letter paper).  The same
+applies, of course, to metric paper sizes, and even to
+abnormal page sizes.  makebook was largely tested, for
+example, using a source document set on 4.25in x 6in paper,
+and by default produced an 8.5in x 12in signature sheet.
+(Better results were obtained by explicitly requesting 8.5in
+x 14in paper, or normal legal paper, with a vertical delta,
+or -D, of 1in.)
+.PP
+By default, both deltas (-d and -D) and offsets (-m and -M)
+are set at zero.
+.PP
+By default, scaling is also set at 0.
+.SS Explicit Dimensions
+.PP
+\fBmakebook\fR assumes that all dimensions are in "big
+points" (bp); that is, Postscript points, of which there are
+72 in an inch.  This is easiest because pdf uses Postscript
+points internally, and pdfinfo consequently gives Postscript
+points as dimensions when they are requested.  Any
+dimensions given without units will therefore be assumed to
+be big points.
+.PP
+\fBmakebook\fR will also accept other units, however; below are
+the units \fBmakebook\fR understands.  In parentheses after
+those units are the abbreviations which \fBmakebook\fR
+knows; unless you specify the units with these
+abbreviations, \fBmakebook\fR won't understand you.
+.RS
+.TP
+.BR inches		(in)
+.TP
+.BR centimeters	(cm)
+.TP
+.BR points		(pt)
+.TP
+.BR picas		(pc)
+.TP
+.BR "big points	(bp)"
+.RE
+.PP
+Please note that "pt" is the traditional printers' point,
+not the Postscript "big point"; traditional printers' points
+are slightly smaller than big points, there being 72.27 of
+them per inch.  Picas here is twelve (12) printers' points,
+not twelve big points.
+.PP
+To input these other units, simply attach their
+abbreviations directly to their numbers; e.g., "8.5in".
+makebook will recognize such measurements and convert them
+into bp for use internally.
+.SH FILLING UP SECTIONS
+.PP
+Sometimes, the number of pages in the source document
+doesn't match up with the number of pages necessary to set
+all the pages into sections each containing an equal number
+of pages.  However, it is necessary (at least in traditional
+binding) to have sections of equal numbers of leaves.  A
+book so arranged is called "perfect"; a book not so arranged
+is called "imperfect."
+.PP
+To accomplish this, blank pages are added to the front and
+back of the book when necessary.  (That is, to the first and
+last sections.)  As far as possible, equal numbers of blank
+pages are added both to the front and back of the book; if
+uneven numbers of blank pages are required, one additional
+blank page is added to the back.  If, however, that would
+result in an uneven number of blanks in the front, one
+additional blank page is added to the back and one fewer to
+the front.  This ensures that odd-numbered folios will
+always correctly appear on recto pages.
+.PP
+One can, however, force \fBmakebook\fR to favor the front
+rather than the back when unequal numbers of blanks are
+required to make the book perfect.  This is specified with
+the "\fB\-f\fR" option.  With this option specified,
+\fBmakebook\fR follows precisely the same procedure in
+determining the number of blanks; when it's done, however,
+it simply switches the number which goes in the front with
+that which goes in the back.  Note that this sometimes
+results in the same number of blanks at the front and the
+back both with and without the "-f" flag set; for example,
+if the number of blanks is "2" at the front and "3" at the
+back.  As the program is currently written, there is no way
+to avoid this.
+.SH EXAMPLES
+.PP
+\fBTo set a short eight-page document for quarto
+printing as a booklet.\fR  Run the following:
+.PP
+.nf
+.RS
+makebook -v -t quarto -i source.pdf 
+.RE
+.fi
+.PP
+\fBTo set a brochure of 16 pages or less for printing as a
+booklet.\fR  Run the following:
+.PP
+.nf
+.RS
+makebook -v -t octavo -i source.pdf 
+.RE
+.fi
+.PP
+Both of these examples assume that your pages are properly
+sized to fit on your target sheet; e.g., that you have
+one-quarter letterpaper size pages to be set in quarto on a
+standard U.S. letterpaper sheet.  If not, you may have to
+get more creative.
+.PP
+\fBFor imposing more-or-less standard LaTeX-produced pages
+in folio on U.S. letter-paper\fR, the following has proved
+to be \fImostly\fR serviceable:
+.PP
+.nf
+.RS
+makebook -i file.pdf -H 8.5in -w 11in -t 2o -v -d "-1.1in" -s 0.8333 -n 2
+.RE
+.fi
+.PP
+This provides minimal scaling of the page to maintain
+maximum quality, while still adjusting things as necessary
+to fit.  It's likely that you'll need to do some tweaking,
+though.
+.PP
+\fBFor imposing pages originally designed for A4 paper in
+folio on A4\fR, the following is at least worth trying:
+.PP
+.nf
+.RS
+makebook -v -i file.pdf -n 2 -t 2o -w 29.7cm -H 21cm -s 0.8
+.RE
+.fi
+.PP
+Again, it's quite likely that you'll need to do some
+tweaking of these measurements.
+.PP
+It's always \fImuch\fR easier to impose pages in their
+original size, and it mostly looks a lot better, too.  For
+example, the last example, when imposing A5 pages onto A4
+paper in folio, looks like this:
+.PP
+.nf
+.RS
+makebook -v -i file.pdf -n2 -t 2o
+.RE
+.fi
+.PP
+It's easier to look at, easier to write, and produces better
+results.  If you intend to print and bind yourself,
+\fIplease\fR consider your final output size when you design
+your book; it'll make it easier for you and nicer for your
+readers.
+.PP
+It is often desirable to set a document which one plans to
+impose on a given size paper such that a larger size paper
+will be appropriate.  The author, for example, had good luck
+imposing a 6in x 4.25in document into quarto signatures on
+legal size paper (8.5in x 14in) with the following:
+.PP
+.nf
+.RS
+makebook -v -i file.pdf -H 14in -w 8.5in -D 1in -t 4to
+.RE
+.fi
+.PP
+Initially, I had intended to set the book for quarto
+signatures on letter paper, but the fit was too tight; using
+legal paper instead allowed me to increase the page height
+from 5.5in to 6in and still have plenty of room for trimming
+and binding.
+.PP
+It is often helpful, when determining appropriate settings,
+to cut out a few signatures' worth of pages from the true
+document and to run the tests on that.  makebook takes some
+time to run, and using fewer signatures can save a great
+deal of time.
+.PP
+Happy binding!
+.SH CAUTIONS
+.PP
+When you're printing these documents on a duplex printer,
+keep in mind that the side on which you flip can have an
+effect on whether the pages line up correctly.  For a quarto
+signature, for example, if your duplex printer gives you the
+option, tell it to flip on the "long" edge; but for an
+octavo, tell it to flip on the "short" edge.
+.PP
+The more complex signatures (especially sexto, octavo, and
+duodecimo) may require some practice to fold correctly.
+Remember that you will have to cut some of the creases to
+make the book open correctly.  It's best to print out a
+signature or two separately and practice folding before
+printing the entire book.
 .SH BUGS
+.PP
 Multiple-signature sections in signatures other than folio
 and quarto do not work properly.  They should.
+.PP
+There is at present no method to specify how many blank
+pages one would like at the front and how many at the back,
+because it's not clear to me why anyone would want to.  But
+it would be good to have the option.
+.PP
+There is at present no method to deliberately make the book
+imperfect; for example, to round off a quarto book with a folio
+section on smaller paper.  I'm not sure that there is any
+really good reason to do this anyway, but again, it would be
+good to have the option.
 .SH AUTHOR
 Donald P. Goodman III <dgoodmaniii at gmail dot com>
 .SH SEE ALSO
