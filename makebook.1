@@ -1,0 +1,186 @@
+." +AMDG
+." Process with:
+." groff -man -Tascii makebook.1
+.TH minlib 1 "June 2016" dgoodmaniii makebook
+.SH NAME
+makebook \- impress pdf pages on sheets for folding and binding
+.SH SYNOPSIS
+.B makebook
+[\fB\-V\fR]
+[\fB\-v\fR]
+[\fB\-h\fR]
+[\fB\-t\fR \fIsignature type\fR]
+[\fB\-n\fR \fIsignatures per section\fR]
+[\fB\-H\fR \fIheight of target page\fR]
+[\fB\-w\fR \fIwidth of target page\fR]
+[\fB\-d\fR \fIhoriz. delta\fR]
+[\fB\-D\fR \fIvert. delta\fR]
+[\fB\-m\fR \fIhoriz. offset\fR]
+[\fB\-M\fR \fIvert. offset\fR]
+[\fB\-s\fR \fIscale\fR]
+[\fB\-i\fR \fIinput file\fR]
+[\fB\-o\fR \fIoutput file\fR]
+.SH DESCRIPTION
+.B makebook
+A utility for taking a normal pdf and impressing multiple
+pages onto single pages for printing, folding, and binding
+as a booklet or book.  Supports folio, quarto, sexto,
+octavo, and duodecimo signatures; scaling of source pages;
+explicit or implicit determination of target page
+dimensions; and more options.  Non-destructive; the original
+file is not effected.
+.SH DEFINITIONS
+.TP
+.BR page
+a single side of a single leaf.  In a normal pdf
+document, each page counts as a single page; it probably
+also has a _folio_, or explicit page number, printed on it,
+though not necessarily.
+.TP
+.BR recto
+a page printed on the front side of a leaf.
+Traditionally given an odd-numbered folio.
+.TP
+.BR verso
+a page printed on the back side of a leaf.
+Traditionally given an even-numbered folio.
+.TP
+.BR leaf
+what we commonly call the "page" of a book, which
+contains two pages.  Different signature types yield
+different numbers of leaves; e.g., a folio produces two
+leaves with four pages, while a quarto produces four leaves
+with eight pages.
+.TP
+.BR signature
+loosely used by makebook to mean a single sheet
+of paper, folded up to produce a given number of leaves
+and pages.  Traditionally a signature was actually simply
+the mark put on a sheet to tell the binder in what order
+the sheets, once folded, should be bound, usually just an
+uppercase Roman letter or some similar mark; however, I've 
+chosen to use "signature" to mean a single sheet, which
+may be equivalent to "section" (see below) or may not be.
+Sections may contain multiple signatures, but a signature
+is always unitary.  Signatures can be of many different
+types, traditionally named by the number of leaves they
+produce.  E.g., a folio signature produces two leaves; a
+quarto produces four; an octavo eight; and so on.
+.TP
+.BR section
+a self-contained part of a book, properly folded
+and ready for binding.  Sections may consist of one or
+more signatures, and a book may be made up of one or more
+sections.
+.SH OPTIONS
+.TP
+.BR \-V
+Print version and licensing information, then exit
+successfully.
+.TP
+.BR \-v
+Print verbose output while running.  By default,
+\fBmakebook\fR produces very little output, so that it can
+be included in a pipe; but if you're running \fBmakebook\fR
+by itself, as is the usual situation, it can take a while to
+do its work, so this option is quite useful to keep you
+apprised of what \fBmakebook\fR is doing.
+.TP
+.BR \-h
+Print a help screen, then exit.
+.TP
+.BR "\-t \fIsignature type\fR"
+What type of signature you want.  You can use either the
+traditional term or the traditional abbreviation for the
+accepted types of signature:
+.RS
+.TP
+.BR "folio, 2o"
+folded once, for four pages per sheet
+.TP
+.BR "quarto, 4to"
+folded twice, for eigth pages per sheet
+.TP
+.BR "sexto, 6to"
+folded once, then cut, the new piece folded
+again; six pages per side of sheet
+.TP
+.BR "octavo, 8vo"
+folded three times, for sixteen pages per
+sheet
+.TP
+.BR "duodecimo, 12mo"
+folded twice times, then cut, the new
+piece folded again; twelve pages per side of sheet
+.PP
+The user may give either the long or the short versions of
+these signatures types, separated above by commas, with no
+change in \fBmakebook\fR's effects.
+.PP
+Defaults to "folio".
+.RE
+.TP
+.BR "\-n \fIsignatures per section\fR"
+Provides the number of signatures of the given type which
+will be assembled into each section.  Defaults to one.
+.TP
+.BR "\-H \fIheight of target page\fR"
+The height of the page onto which \fBmakebook\fR will
+impress the pages of the original document.  If omitted,
+\fBmakebook\fR will simply multiply the dimensions of the
+original page according to the type of signature and use
+that, so as not to require any scaling of the source pages.
+.TP
+.BR "\-w \fIwidth of target page\fR"
+The width of the page onto which \fBmakebook\fR will
+impress the pages of the original document.  If omitted,
+\fBmakebook\fR will simply multiply the dimensions of the
+original page according to the type of signature and use
+that, so as not to require any scaling of the source pages.
+.TP
+.BR "\-d \fIhoriz. delta\fR"
+Alters the horizontal distance between impressed sheets on
+the target page.  Defaults to 0.
+.TP
+.BR "\-D \fIvert. delta\fR"
+Alters the vertical distance between impressed sheets on
+the target page.  Defaults to 0.
+.TP
+.BR "\-m \fIhoriz. offset\fR"
+Requires \fBmakebook\fR to place the upper left corner of
+each impressed page offset horizontally by this amount.
+Defaults to 0.
+.TP
+.BR "\-M \fIvert. offset\fR"
+Requires \fBmakebook\fR to place the upper left corner of
+each impressed page offset vertically by this amount.
+Defaults to 0.
+.TP
+.BR "\-s \fIscale\fR"
+If you intend to scale the page, enter the scaling factor
+here.  "1" will not scale at all; less than 1 will reduce
+the page's size, greater than 1 will increase it.  Use this
+with care; scaling nearly always degrades the quality of the
+result, no matter how careful you were with your vector
+graphics.
+.TP
+.BR "\-i \fIinput file\fR"
+Specifies the name of the input file; that is, the file that
+\fBmakebook\fR will be imposing onto a new document.  If not
+provided, \fBmakebook\fR will simply use standard input.
+.TP
+.BR "\-o \fIoutput file\fR"
+Specifies the name of the output file which \fBmakebook\fR
+should use for the result of its operations.  If omitted,
+\fBmakebook\fR will prepend the string "sigs_" to the
+beginning of the input file name and use that.  To use
+standard output, include this option, but give "stdout" for
+the filename.
+.SH BUGS
+Multiple-signature sections in signatures other than folio
+and quarto do not work properly.  They should.
+.SH AUTHOR
+Donald P. Goodman III <dgoodmaniii at gmail dot com>
+.SH SEE ALSO
+pdfinfo
+pdflatex
