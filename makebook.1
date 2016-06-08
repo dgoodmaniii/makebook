@@ -32,28 +32,28 @@ file is not effected.
 .SH DEFINITIONS
 .TP
 .BR page
-a single side of a single leaf.  In a normal pdf
-document, each page counts as a single page; it probably
-also has a _folio_, or explicit page number, printed on it,
-though not necessarily.
+A single side of a single leaf.  In a normal pdf document,
+each page counts as a single page; it probably also has a
+\fIfolio\fR, or explicit page number, printed on it, though
+not necessarily.
 .TP
 .BR recto
-a page printed on the front side of a leaf.
+A page printed on the front side of a leaf.
 Traditionally given an odd-numbered folio.
 .TP
 .BR verso
-a page printed on the back side of a leaf.
+A page printed on the back side of a leaf.
 Traditionally given an even-numbered folio.
 .TP
 .BR leaf
-what we commonly call the "page" of a book, which
+What we commonly call the "page" of a book, which
 contains two pages.  Different signature types yield
 different numbers of leaves; e.g., a folio produces two
 leaves with four pages, while a quarto produces four leaves
 with eight pages.
 .TP
 .BR signature
-loosely used by makebook to mean a single sheet
+Loosely used by makebook to mean a single sheet
 of paper, folded up to produce a given number of leaves
 and pages.  Traditionally a signature was actually simply
 the mark put on a sheet to tell the binder in what order
@@ -68,10 +68,22 @@ produce.  E.g., a folio signature produces two leaves; a
 quarto produces four; an octavo eight; and so on.
 .TP
 .BR section
-a self-contained part of a book, properly folded
+A self-contained part of a book, properly folded
 and ready for binding.  Sections may consist of one or
 more signatures, and a book may be made up of one or more
 sections.
+.TP
+.BR delta
+Additional distance added between the impressed pages on the
+target sheet.  Can be either vertical or horizontal.  Useful
+for, e.g., adding the "binding correction" to the interior
+margins of the book.  Can be positive or negative.
+.TP
+.BR offset
+The extra distance added before placing the source page on the
+target page.  Affects the placement of the top left corner
+of the source page.  Can be vertical or horizontal, positive
+or negative.
 .SH OPTIONS
 .TP
 .BR \-V
@@ -122,7 +134,10 @@ Defaults to "folio".
 .TP
 .BR "\-n \fIsignatures per section\fR"
 Provides the number of signatures of the given type which
-will be assembled into each section.  Defaults to one.
+will be assembled into each section.  Defaults to one.  Note
+that this option only works for folio and quarto signatures;
+though \fBmakebook\fR will not complain if you try it with
+others, your results will (probably) be wrong.
 .TP
 .BR "\-H \fIheight of target page\fR"
 The height of the page onto which \fBmakebook\fR will
