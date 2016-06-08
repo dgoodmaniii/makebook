@@ -46,7 +46,7 @@ E_NO_PROG=69		# missing a required program
 # define usage variables
 VERBOSE=0		# 0 if not verbose, 1 if -v
 SIG_TYPE="folio"	# type of section desired
-PAGES_PER_SIG=4	# number of pages per signature
+PAGES_PER_SIG=4		# number of pages per signature
 SECT_TYPE=1		# number of signatures per section
 NUP="2x1"		# default format of signatures
 FRONT_FAVOR=0		# favor front for blanks; off by default
@@ -296,8 +296,10 @@ OPTIONS
 	Normally this will only be used for folio signatures,
 	because a single fold is often too thin to sew while binding
 	without tearing.  However, makebook supports multiple
-	signatures per section for the other signature types, as
-	well.
+	signatures per section for quarto, as well.   For other
+	signature types, the results will likely be wrong; they
+	are so rarely needed that I've not really successfully
+	debugged them.
 -H:	Explicitly states the height of the target page; that
 	is, tells makebook what height the output sheet should be.
 -w:	Explicitly states the width of the target page; that is,
@@ -626,7 +628,7 @@ echo "\quad \end{document}" >> blank.tex
 	then
 		echo "CREATING blank page to fill sections...";
 	fi
-	pdflatex blank.tex 2>/dev/null
+	pdflatex blank.tex > /dev/null 2&>1
 	rm blank.aux blank.log blank.tex
 fi
 # now insert blank pages as needed, preferring the back for
@@ -938,7 +940,7 @@ if [ $VERBOSE -eq 1 ]
 then
 	echo "IMPOSING sections..."
 fi
-pdflatex ${OUTFILE_NAME%.pdf}.tex 2>/dev/null
+pdflatex ${OUTFILE_NAME%.pdf}.tex > /dev/null 2>&1
 if [ $VERBOSE -eq 1 ]
 then
 	echo "CLEANING up..."
