@@ -54,7 +54,25 @@ AMDG
 <em>impressing</em> pdf pages; in other words, for taking a
 normal pdf and rearranging them to place multiple pages on
 the same target sheet, so that they can be printed, folded,
-and bound.  Although it is a simple script 
+and bound.  Although it is a simple script (less than seven
+hundred lines at last count), it's still extremely
+configurable and quite powerful for its task.</p>
+
+<p>Makebook is written entirely in POSIX-compatible shell,
+usually called with /bin/sh.  As such, it's about as
+portable as a shell script can be.  It does have a few <a
+href="depends.html">dependencies</a>, to take advantage of
+several very powerful tools that already exist for
+manipulating pdfs.  It also has very complete <a
+href="docs.html">documentation</a>, to help you learn how to
+use its many configuration options.</p>
+
+<p>Finally, though it seems unlikely that makebook would
+ever be a vector for an attack, it goes out of its way to
+make that impossible.  Temporary files are randomly named in
+order to prevent race conditions, new files are set with
+restrictive permissions, and so forth.  Makebook is a
+program that you can trust.</p>
 
 
 </div> <!-- end mainpart -->
