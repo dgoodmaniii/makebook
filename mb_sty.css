@@ -1,0 +1,96 @@
+/* +AMDG  This document was begun on 9 June 1200, the
+commemoration of Ss. Primus and Felician, MM, and it is
+humbly dedicated to them and to St. Wulfric of Haselbury,
+patron of binders, and to the Immaculate Heart of Mary for
+their prayers, and to the Sacred Heart of Jesus, for His
+mercy. */
+
+body {
+	border:  0px;
+	padding:  0px;
+	margin:  0px;
+}
+
+.amdg {
+	border:  0px;
+	padding:  0px;
+	margin:  0px;
+	font-size:  75%;
+	font-weight:  bold;
+	text-align:  center;
+}
+
+.titlebar {
+	border:  0px;
+	padding:  0px;
+	margin:  0px;
+	padding-bottom:  2%;
+	background-color:  #f1d592;
+}
+
+.titlebar h1 {
+	padding:  0pt;
+	margin:  0pt;
+	border:  0pt;
+	padding-left:  1%;
+	color:  black;
+	font-size:  300%;
+	font-variant:  small-caps;
+}
+
+.titlebar h2 {
+	padding:  0pt;
+	margin:  0pt;
+	border:  0pt;
+	padding-left:  5%;
+	font-size:  100%;
+	font-style:  italic;
+	font-weight:  normal;
+}
+
+.navbar {
+	padding:  0px;
+	margin:  0px;
+	border:  0px;
+	text-align:  center;
+	background-color:  #f1d592;
+	padding-top:  1%;
+	padding-bottom:  1%;
+}
+
+.headstuff {
+	padding:  0px;
+	border:  0px;
+	margin:  0px;
+	margin-bottom:  2%;
+}
+
+.mainpart {
+	margin:  0pt;
+	border:  0pt;
+	padding:  0pt;
+	color:  black;
+	background-color: #fafafa;
+}
+
+.mainpart h1 {
+	font-size:  175%;
+	font-variant:  small-caps;
+	font-weight:  bold;
+}
+
+.footer {
+	margin:  0pt;
+	padding:  0pt;
+	border:  0pt;
+	padding-top:  2%;
+	padding-bottom:  2%;
+	margin-top:  2%;
+	background-color:  #f1d592;
+	color:  black;
+	text-align:  left;
+}
+
+.fl {
+	font-size:  150%;
+}
