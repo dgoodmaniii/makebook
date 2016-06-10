@@ -1,0 +1,687 @@
+<!-- Creator     : groff version 1.22.2 -->
+<!-- CreationDate: Wed Jun  8 15:55:44 2016 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="Content-Style" content="text/css">
+<style type="text/css">
+       p       { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       pre     { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       table   { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       h1      { text-align: center }
+</style>
+<title>makebook</title>
+
+</head>
+<body>
+
+<h1 align="center">makebook</h1>
+
+<a href="#NAME">NAME</a><br>
+<a href="#SYNOPSIS">SYNOPSIS</a><br>
+<a href="#DESCRIPTION">DESCRIPTION</a><br>
+<a href="#DEFINITIONS">DEFINITIONS</a><br>
+<a href="#OPTIONS">OPTIONS</a><br>
+<a href="#DIMENSIONS">DIMENSIONS</a><br>
+<a href="#FILLING UP SECTIONS">FILLING UP SECTIONS</a><br>
+<a href="#EXAMPLES">EXAMPLES</a><br>
+<a href="#CAUTIONS">CAUTIONS</a><br>
+<a href="#BUGS">BUGS</a><br>
+<a href="#AUTHOR">AUTHOR</a><br>
+<a href="#SEE ALSO">SEE ALSO</a><br>
+
+<hr>
+
+
+<h2>NAME
+<a name="NAME"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">makebook
+&minus; impress pdf pages on sheets for folding and
+binding</p>
+
+<h2>SYNOPSIS
+<a name="SYNOPSIS"></a>
+</h2>
+
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>makebook</b>
+[<b>&minus;V</b>] [<b>&minus;v</b>] [<b>&minus;h</b>]
+[<b>&minus;f</b>] [<b>&minus;t</b> <i>signature type</i>]
+[<b>&minus;n</b> <i>signatures per section</i>]
+[<b>&minus;H</b> <i>height of target page</i>]
+[<b>&minus;w</b> <i>width of target page</i>]
+[<b>&minus;d</b> <i>horiz. delta</i>] [<b>&minus;D</b>
+<i>vert. delta</i>] [<b>&minus;m</b> <i>horiz. offset</i>]
+[<b>&minus;M</b> <i>vert. offset</i>] [<b>&minus;s</b>
+<i>scale</i>] [<b>&minus;i</b> <i>input file</i>]
+[<b>&minus;o</b> <i>output file</i>]</p>
+
+<h2>DESCRIPTION
+<a name="DESCRIPTION"></a>
+</h2>
+
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>makebook</b>
+A utility for taking a normal pdf and impressing multiple
+pages onto single pages for printing, folding, and binding
+as a booklet or book. Supports folio, quarto, sexto, octavo,
+and duodecimo signatures; scaling of source pages; explicit
+or implicit determination of target page dimensions; and
+more options. Non-destructive; the original file is not
+effected.</p>
+
+<h2>DEFINITIONS
+<a name="DEFINITIONS"></a>
+</h2>
+
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="7%">
+
+
+<p style="margin-top: 1em"><b>page</b></p></td>
+<td width="4%"></td>
+<td width="78%">
+
+
+<p style="margin-top: 1em">A single side of a single leaf.
+In a normal pdf document, each page counts as a single page;
+it probably also has a <i>folio</i>, or explicit page
+number, printed on it, though not necessarily.</p></td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="7%">
+
+
+<p><b>recto</b></p></td>
+<td width="4%"></td>
+<td width="78%">
+
+
+<p>A page printed on the front side of a leaf.
+Traditionally given an odd-numbered folio.</p></td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="7%">
+
+
+<p><b>verso</b></p></td>
+<td width="4%"></td>
+<td width="78%">
+
+
+<p>A page printed on the back side of a leaf. Traditionally
+given an even-numbered folio.</p></td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="7%">
+
+
+<p><b>leaf</b></p></td>
+<td width="4%"></td>
+<td width="78%">
+
+
+<p>What we commonly call the &quot;page&quot; of a book,
+which contains two pages. Different signature types yield
+different numbers of leaves; e.g., a folio produces two
+leaves with four pages, while a quarto produces four leaves
+with eight pages.</p></td></tr>
+</table>
+
+<p style="margin-left:11%;"><b>signature</b></p>
+
+<p style="margin-left:22%;">Loosely used by makebook to
+mean a single sheet of paper, folded up to produce a given
+number of leaves and pages. Traditionally a signature was
+actually simply the mark put on a sheet to tell the binder
+in what order the sheets, once folded, should be bound,
+usually just an uppercase Roman letter or some similar mark;
+however, I&rsquo;ve chosen to use &quot;signature&quot; to
+mean a single sheet, which may be equivalent to
+&quot;section&quot; (see below) or may not be. Sections may
+contain multiple signatures, but a signature is always
+unitary. Signatures can be of many different types,
+traditionally named by the number of leaves they produce.
+E.g., a folio signature produces two leaves; a quarto
+produces four; an octavo eight; and so on.</p>
+
+<p style="margin-left:11%;"><b>section</b></p>
+
+<p style="margin-left:22%;">A self-contained part of a
+book, properly folded and ready for binding. Sections may
+consist of one or more signatures, and a book may be made up
+of one or more sections.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="9%">
+
+
+<p><b>delta</b></p></td>
+<td width="2%"></td>
+<td width="78%">
+
+
+<p>Additional distance added between the impressed pages on
+the target sheet. Can be either vertical or horizontal.
+Useful for, e.g., adding the &quot;binding correction&quot;
+to the interior margins of the book. Can be positive or
+negative.</p> </td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="9%">
+
+
+<p><b>offset</b></p></td>
+<td width="2%"></td>
+<td width="78%">
+
+
+<p>The extra distance added before placing the source page
+on the target page. Affects the placement of the top left
+corner of the source page. Can be vertical or horizontal,
+positive or negative.</p></td></tr>
+</table>
+
+<h2>OPTIONS
+<a name="OPTIONS"></a>
+</h2>
+
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+
+<p style="margin-top: 1em"><b>&minus;V</b></p></td>
+<td width="8%"></td>
+<td width="78%">
+
+
+<p style="margin-top: 1em">Print version and licensing
+information, then exit successfully.</p></td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+
+<p><b>&minus;v</b></p></td>
+<td width="8%"></td>
+<td width="78%">
+
+
+<p>Print verbose output while running. By default,
+<b>makebook</b> produces very little output, so that it can
+be included in a pipe; but if you&rsquo;re running
+<b>makebook</b> by itself, as is the usual situation, it can
+take a while to do its work, so this option is quite useful
+to keep you apprised of what <b>makebook</b> is doing.</p></td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+
+<p><b>&minus;h</b></p></td>
+<td width="8%"></td>
+<td width="78%">
+
+
+<p>Print a help screen, then exit.</p></td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+
+<p><b>&minus;f</b></p></td>
+<td width="8%"></td>
+<td width="78%">
+
+
+<p>Favor the front rather than the back when filling up
+sections with blanks; that is, put more blanks in the front
+than in the back. The default puts more blanks in the back
+than the front (unless the number is equal).</p></td></tr>
+</table>
+
+<p style="margin-left:11%;"><b>&minus;t</b> <i>signature
+type</i></p>
+
+<p style="margin-left:22%;">What type of signature you
+want. You can use either the traditional term or the
+traditional abbreviation for the accepted types of
+signature: <b><br>
+folio, 2o</b></p>
+
+<p style="margin-left:32%;">folded once, for four pages per
+sheet</p>
+
+<p style="margin-left:22%;"><b>quarto, 4to</b></p>
+
+<p style="margin-left:32%;">folded twice, for eigth pages
+per sheet</p>
+
+<p style="margin-left:22%;"><b>sexto, 6to</b></p>
+
+<p style="margin-left:32%;">folded once, then cut, the new
+piece folded again; six pages per side of sheet</p>
+
+<p style="margin-left:22%;"><b>octavo, 8vo</b></p>
+
+<p style="margin-left:32%;">folded three times, for sixteen
+pages per sheet</p>
+
+<p style="margin-left:22%;"><b>duodecimo, 12mo</b></p>
+
+<p style="margin-left:32%;">folded twice times, then cut,
+the new piece folded again; twelve pages per side of
+sheet</p>
+
+<p style="margin-left:22%; margin-top: 1em">The user may
+give either the long or the short versions of these
+signatures types, separated above by commas, with no change
+in <b>makebook</b>&rsquo;s effects.</p>
+
+<p style="margin-left:22%; margin-top: 1em">Defaults to
+&quot;folio&quot;.</p>
+
+<p style="margin-left:11%;"><b>&minus;n</b> <i>signatures
+per section</i></p>
+
+<p style="margin-left:22%;">Provides the number of
+signatures of the given type which will be assembled into
+each section. Defaults to one. Note that this option only
+works for folio and quarto signatures; though
+<b>makebook</b> will not complain if you try it with others,
+your results will (probably) be wrong.</p>
+
+<p style="margin-left:11%;"><b>&minus;H</b> <i>height of
+target page</i></p>
+
+<p style="margin-left:22%;">The height of the page onto
+which <b>makebook</b> will impress the pages of the original
+document. If omitted, <b>makebook</b> will simply multiply
+the dimensions of the original page according to the type of
+signature and use that, so as not to require any scaling of
+the source pages.</p>
+
+<p style="margin-left:11%;"><b>&minus;w</b> <i>width of
+target page</i></p>
+
+<p style="margin-left:22%;">The width of the page onto
+which <b>makebook</b> will impress the pages of the original
+document. If omitted, <b>makebook</b> will simply multiply
+the dimensions of the original page according to the type of
+signature and use that, so as not to require any scaling of
+the source pages.</p>
+
+<p style="margin-left:11%;"><b>&minus;d</b> <i>horiz.
+delta</i></p>
+
+<p style="margin-left:22%;">Alters the horizontal distance
+between impressed sheets on the target page. Defaults to
+0.</p>
+
+<p style="margin-left:11%;"><b>&minus;D</b> <i>vert.
+delta</i></p>
+
+<p style="margin-left:22%;">Alters the vertical distance
+between impressed sheets on the target page. Defaults to
+0.</p>
+
+<p style="margin-left:11%;"><b>&minus;m</b> <i>horiz.
+offset</i></p>
+
+<p style="margin-left:22%;">Requires <b>makebook</b> to
+place the upper left corner of each impressed page offset
+horizontally by this amount. Defaults to 0.</p>
+
+<p style="margin-left:11%;"><b>&minus;M</b> <i>vert.
+offset</i></p>
+
+<p style="margin-left:22%;">Requires <b>makebook</b> to
+place the upper left corner of each impressed page offset
+vertically by this amount. Defaults to 0.</p>
+
+<p style="margin-left:11%;"><b>&minus;s</b>
+<i>scale</i></p>
+
+<p style="margin-left:22%;">If you intend to scale the
+page, enter the scaling factor here. &quot;1&quot; will not
+scale at all; less than 1 will reduce the page&rsquo;s size,
+greater than 1 will increase it. Use this with care; scaling
+nearly always degrades the quality of the result, no matter
+how careful you were with your vector graphics.</p>
+
+<p style="margin-left:11%;"><b>&minus;i</b> <i>input
+file</i></p>
+
+<p style="margin-left:22%;">Specifies the name of the input
+file; that is, the file that <b>makebook</b> will be
+imposing onto a new document. If not provided,
+<b>makebook</b> will simply use standard input.</p>
+
+<p style="margin-left:11%;"><b>&minus;o</b> <i>output
+file</i></p>
+
+<p style="margin-left:22%;">Specifies the name of the
+output file which <b>makebook</b> should use for the result
+of its operations. If omitted, <b>makebook</b> will prepend
+the string &quot;sigs_&quot; to the beginning of the input
+file name and use that. To use standard output, include this
+option, but give &quot;stdout&quot; for the filename.</p>
+
+<h2>DIMENSIONS
+<a name="DIMENSIONS"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>Default
+Dimensions <br>
+makebook</b>, as will be seen below, permits the explicit
+statement of some dimensions. Absent such statement,
+however, default values will be assigned. Furthermore, the
+size of the input page cannot be set explicitly; it is
+always determined automatically by the script. This section
+explains a bit how these dimensions are determined.</p>
+
+<p style="margin-left:11%; margin-top: 1em"><b>THE SOURCE
+PAGE:</b> The dimensions of the source page are determined
+very simply, by running &quot;pdfinfo&quot; through an awk
+filter and taking that at face value. This has worked well
+for the author&rsquo;s purposes. These dimensions cannot be
+set explicitly.</p>
+
+<p style="margin-left:11%; margin-top: 1em"><b>THE TARGET
+PAGE:</b> The dimensions of the target page can be specified
+explicitly at the command line, with &quot;-H&quot; and
+&quot;-w&quot;. If they are not, however, <b>makebook</b>
+does its best to give them sensible values. However, I did
+not want makebook to assume a given paper size (and thus
+begin a letterpaper vs. A4 firestorm) or to assume a desired
+scaling (and thus have a default which probably ruins page
+quality), so it does so very simply.</p>
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>makebook</b>
+simply multiplies the source page dimensions by appropriate
+values to ensure that the target page will be exactly the
+correct size to hold the requested type of signature
+assuming no scaling of the source page.</p>
+
+<p style="margin-left:11%; margin-top: 1em">In other words,
+if a pdf source document is on halfletter paper (that is,
+8.5in x 5.5in), and folio signatures are requested, the
+resulting document will be 8.5in x 11in (normal letter
+paper). If a pdf is on letter paper, and folio signatures
+are requested, the resulting document will be 11in x 17in
+(normal ledger paper). If a document is set on 5.5in x
+4.25in paper (a quarter of a normal letter page), and quarto
+signatures are requested, the resulting document will be
+8.5in x 11in (normal letter paper). The same applies, of
+course, to metric paper sizes, and even to abnormal page
+sizes. makebook was largely tested, for example, using a
+source document set on 4.25in x 6in paper, and by default
+produced an 8.5in x 12in signature sheet. (Better results
+were obtained by explicitly requesting 8.5in x 14in paper,
+or normal legal paper, with a vertical delta, or -D, of
+1in.)</p>
+
+<p style="margin-left:11%; margin-top: 1em">By default,
+both deltas (-d and -D) and offsets (-m and -M) are set at
+zero.</p>
+
+<p style="margin-left:11%; margin-top: 1em">By default,
+scaling is also set at 0.</p>
+
+<p style="margin-left:11%; margin-top: 1em"><b>Explicit
+Dimensions <br>
+makebook</b> assumes that all dimensions are in &quot;big
+points&quot; (bp); that is, Postscript points, of which
+there are 72 in an inch. This is easiest because pdf uses
+Postscript points internally, and pdfinfo consequently gives
+Postscript points as dimensions when they are requested. Any
+dimensions given without units will therefore be assumed to
+be big points.</p>
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>makebook</b>
+will also accept other units, however; below are the units
+<b>makebook</b> understands. In parentheses after those
+units are the abbreviations which <b>makebook</b> knows;
+unless you specify the units with these abbreviations,
+<b>makebook</b> won&rsquo;t understand you.</p>
+
+<p style="margin-left:22%;"><b>inches (in) <br>
+centimeters (cm) <br>
+points (pt) <br>
+picas (pc) <br>
+big points (bp)</b></p>
+
+<p style="margin-left:11%; margin-top: 1em">Please note
+that &quot;pt&quot; is the traditional printers&rsquo;
+point, not the Postscript &quot;big point&quot;; traditional
+printers&rsquo; points are slightly smaller than big points,
+there being 72.27 of them per inch. Picas here is twelve
+(12) printers&rsquo; points, not twelve big points.</p>
+
+<p style="margin-left:11%; margin-top: 1em">To input these
+other units, simply attach their abbreviations directly to
+their numbers; e.g., &quot;8.5in&quot;. makebook will
+recognize such measurements and convert them into bp for use
+internally.</p>
+
+<h2>FILLING UP SECTIONS
+<a name="FILLING UP SECTIONS"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">Sometimes, the
+number of pages in the source document doesn&rsquo;t match
+up with the number of pages necessary to set all the pages
+into sections each containing an equal number of pages.
+However, it is necessary (at least in traditional binding)
+to have sections of equal numbers of leaves. A book so
+arranged is called &quot;perfect&quot;; a book not so
+arranged is called &quot;imperfect.&quot;</p>
+
+<p style="margin-left:11%; margin-top: 1em">To accomplish
+this, blank pages are added to the front and back of the
+book when necessary. (That is, to the first and last
+sections.) As far as possible, equal numbers of blank pages
+are added both to the front and back of the book; if uneven
+numbers of blank pages are required, one additional blank
+page is added to the back. If, however, that would result in
+an uneven number of blanks in the front, one additional
+blank page is added to the back and one fewer to the front.
+This ensures that odd-numbered folios will always correctly
+appear on recto pages.</p>
+
+<p style="margin-left:11%; margin-top: 1em">One can,
+however, force <b>makebook</b> to favor the front rather
+than the back when unequal numbers of blanks are required to
+make the book perfect. This is specified with the
+&quot;<b>&minus;f</b>&quot; option. With this option
+specified, <b>makebook</b> follows precisely the same
+procedure in determining the number of blanks; when
+it&rsquo;s done, however, it simply switches the number
+which goes in the front with that which goes in the back.
+Note that this sometimes results in the same number of
+blanks at the front and the back both with and without the
+&quot;-f&quot; flag set; for example, if the number of
+blanks is &quot;2&quot; at the front and &quot;3&quot; at
+the back. As the program is currently written, there is no
+way to avoid this.</p>
+
+<h2>EXAMPLES
+<a name="EXAMPLES"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>To set a
+short eight-page document for quarto printing as a
+booklet.</b> Run the following:</p>
+
+<p style="margin-left:22%; margin-top: 1em">makebook -v -t
+quarto -i source.pdf</p>
+
+<p style="margin-left:11%; margin-top: 1em"><b>To set a
+brochure of 16 pages or less for printing as a booklet.</b>
+Run the following:</p>
+
+<p style="margin-left:22%; margin-top: 1em">makebook -v -t
+octavo -i source.pdf</p>
+
+<p style="margin-left:11%; margin-top: 1em">Both of these
+examples assume that your pages are properly sized to fit on
+your target sheet; e.g., that you have one-quarter
+letterpaper size pages to be set in quarto on a standard
+U.S. letterpaper sheet. If not, you may have to get more
+creative.</p>
+
+<p style="margin-left:11%; margin-top: 1em"><b>For imposing
+more-or-less standard LaTeX-produced pages in folio on U.S.
+letter-paper</b>, the following has proved to be
+<i>mostly</i> serviceable:</p>
+
+<p style="margin-left:22%; margin-top: 1em">makebook -i
+file.pdf -H 8.5in -w 11in -t 2o -v -d &quot;-1.1in&quot; -s
+0.8333 -n 2</p>
+
+<p style="margin-left:11%; margin-top: 1em">This provides
+minimal scaling of the page to maintain maximum quality,
+while still adjusting things as necessary to fit. It&rsquo;s
+likely that you&rsquo;ll need to do some tweaking,
+though.</p>
+
+<p style="margin-left:11%; margin-top: 1em"><b>For imposing
+pages originally designed for A4 paper in folio on A4</b>,
+the following is at least worth trying:</p>
+
+<p style="margin-left:22%; margin-top: 1em">makebook -v -i
+file.pdf -n 2 -t 2o -w 29.7cm -H 21cm -s 0.8</p>
+
+<p style="margin-left:11%; margin-top: 1em">Again,
+it&rsquo;s quite likely that you&rsquo;ll need to do some
+tweaking of these measurements.</p>
+
+<p style="margin-left:11%; margin-top: 1em">It&rsquo;s
+always <i>much</i> easier to impose pages in their original
+size, and it mostly looks a lot better, too. For example,
+the last example, when imposing A5 pages onto A4 paper in
+folio, looks like this:</p>
+
+<p style="margin-left:22%; margin-top: 1em">makebook -v -i
+file.pdf -n2 -t 2o</p>
+
+<p style="margin-left:11%; margin-top: 1em">It&rsquo;s
+easier to look at, easier to write, and produces better
+results. If you intend to print and bind yourself,
+<i>please</i> consider your final output size when you
+design your book; it&rsquo;ll make it easier for you and
+nicer for your readers.</p>
+
+<p style="margin-left:11%; margin-top: 1em">It is often
+desirable to set a document which one plans to impose on a
+given size paper such that a larger size paper will be
+appropriate. The author, for example, had good luck imposing
+a 6in x 4.25in document into quarto signatures on legal size
+paper (8.5in x 14in) with the following:</p>
+
+<p style="margin-left:22%; margin-top: 1em">makebook -v -i
+file.pdf -H 14in -w 8.5in -D 1in -t 4to</p>
+
+<p style="margin-left:11%; margin-top: 1em">Initially, I
+had intended to set the book for quarto signatures on letter
+paper, but the fit was too tight; using legal paper instead
+allowed me to increase the page height from 5.5in to 6in and
+still have plenty of room for trimming and binding.</p>
+
+<p style="margin-left:11%; margin-top: 1em">It is often
+helpful, when determining appropriate settings, to cut out a
+few signatures&rsquo; worth of pages from the true document
+and to run the tests on that. makebook takes some time to
+run, and using fewer signatures can save a great deal of
+time.</p>
+
+<p style="margin-left:11%; margin-top: 1em">Happy
+binding!</p>
+
+<h2>CAUTIONS
+<a name="CAUTIONS"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">When
+you&rsquo;re printing these documents on a duplex printer,
+keep in mind that the side on which you flip can have an
+effect on whether the pages line up correctly. For a quarto
+signature, for example, if your duplex printer gives you the
+option, tell it to flip on the &quot;long&quot; edge; but
+for an octavo, tell it to flip on the &quot;short&quot;
+edge.</p>
+
+<p style="margin-left:11%; margin-top: 1em">The more
+complex signatures (especially sexto, octavo, and duodecimo)
+may require some practice to fold correctly. Remember that
+you will have to cut some of the creases to make the book
+open correctly. It&rsquo;s best to print out a signature or
+two separately and practice folding before printing the
+entire book.</p>
+
+<h2>BUGS
+<a name="BUGS"></a>
+</h2>
+
+
+
+<p style="margin-left:11%; margin-top: 1em">Multiple-signature
+sections in signatures other than folio and quarto do not
+work properly. They should.</p>
+
+<p style="margin-left:11%; margin-top: 1em">There is at
+present no method to specify how many blank pages one would
+like at the front and how many at the back, because
+it&rsquo;s not clear to me why anyone would want to. But it
+would be good to have the option.</p>
+
+<p style="margin-left:11%; margin-top: 1em">There is at
+present no method to deliberately make the book imperfect;
+for example, to round off a quarto book with a folio section
+on smaller paper. I&rsquo;m not sure that there is any
+really good reason to do this anyway, but again, it would be
+good to have the option.</p>
+
+<h2>AUTHOR
+<a name="AUTHOR"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">Donald P.
+Goodman III &lt;dgoodmaniii at gmail dot com&gt;</p>
+
+<h2>SEE ALSO
+<a name="SEE ALSO"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">pdfinfo
+pdflatex</p>
+<hr>
+</body>
+</html>

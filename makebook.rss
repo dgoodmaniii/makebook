@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+	<channel>
+		<title>Makebook RSS Feed</title>
+		<description>
+		Makebook:  a shell script for impressing pdf pages
+		onto a single target page for printing, folding, and
+		binding.
+		</description>
+		<link>https://github.com/dgoodmaniii/makebook</link>
+		<item>
+			<title>makebook v2.0 released</title>
+			<description>
+			Turns makebook into a POSIX shell script, rather
+			than a bash-specific script.  Also does some
+			dependency checking, and uploaded the whole of the
+			new website.
+			</description>
+			<link>http://dgoodmaniii.github.io/makebook/</link>
+			<pubDate>20160609</pubDate>
+		</item>
+	</channel>
+</rss>
