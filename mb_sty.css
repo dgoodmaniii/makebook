@@ -89,12 +89,20 @@ body {
 	border:  0pt;
 	padding-top:  2%;
 	padding-bottom:  2%;
+	padding-left:  1%;
 	margin-top:  2%;
 	background-color:  #f1d592;
 	color:  black;
 	text-align:  left;
+	font-size:  75%;
 }
 
 .fl {
 	font-size:  150%;
+}
+
+.homelink {
+	float:  left;
+	font-size:  200%;
+	padding-right:  1%;
 }

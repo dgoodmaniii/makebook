@@ -8,8 +8,7 @@ their prayers, and to the Sacred Heart of Jesus, for His
 mercy. -->
 
 <head>
-<title>makebook | Impress pdfs for printing, folding, and
-binding</title>
+<title>makebook | Dependencies</title>
 <meta charset="UTF-8" />
 <meta name="description" content="makebook, a
 	POSIX-compatible shell script for impressing pdf pages
@@ -48,32 +47,37 @@ AMDG
 
 <div class="mainpart">
 
-<h1>Makebook:  For Printing, Folding, and Binding</h1>
+<h1>Makebook:  Dependencies</h1>
 
-<p><span class="fl">M</span>akebook is a script for
-<em>impressing</em> pdf pages; in other words, for taking a
-normal pdf and rearranging them to place multiple pages on
-the same target sheet, so that they can be printed, folded,
-and bound.  Although it is a simple script (less than seven
-hundred lines at last count), it's still extremely
-configurable and quite powerful for its task.</p>
+<p><span class="fl">M</span>akebook is a shell script, and
+as such, it depends on a few other programs to do its work.
+This is an advantage for makebook; it doesn't have to
+duplicate functions that have already been implemented
+elsewhere.  If you do not have these dependencies installed,
+makebook will warn you about it and fail.</p>
 
-<p>Makebook is written entirely in POSIX-compatible shell,
-usually called with /bin/sh.  As such, it's about as
-portable as a shell script can be.  It does have a few <a
-href="depends.html">dependencies</a>, to take advantage of
-several very powerful tools that already exist for
-manipulating pdfs.  It also has very complete <a
-href="docs.html">documentation</a>, to help you learn how to
-use its many configuration options.</p>
+<ul>
+<li><a
+href="https://www.gnu.org/software/coreutils/manual/html_node/od-invocation.html">od</a>:
+This is one of the GNU coreutils, so it's pretty likely that
+you already have it; if not, it's easily installed.
+Makebook uses od to produce its random file names.</li>
+<li><a href="http://www.ctan.org">pdflatex</a>:  Obviously;
+pdflatex does much of the grunt work behind the scenes in
+makebook.  TeXLive is the best distribution.</li>
+<li><a
+href="http://www.foolabs.com/xpdf/download.html">pdfinfo</a>:
+Part of the <a
+href="http://www.foolabs.com/xpdf/index.html">xpdf</a>
+bundle.  Makebook uses this to determine the dimensions of
+the source pages.</li>
+<li><a
+href="https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/">pdftk</a>:
+The pdf toolkit; makebook uses this to tear apart the source
+pdf and feed it to pdflatex.</li>
+</ul>
 
-<p>Finally, though it seems unlikely that makebook would
-ever be a vector for an attack, it goes out of its way to
-make that impossible.  Temporary files are randomly named in
-order to prevent race conditions, new files are set with
-restrictive permissions, and so forth.  Makebook is a
-program that you can trust.</p>
-
+<p>Once you have these installed, you're ready to go.</p>
 
 </div> <!-- end mainpart -->
 

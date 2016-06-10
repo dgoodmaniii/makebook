@@ -8,8 +8,7 @@ their prayers, and to the Sacred Heart of Jesus, for His
 mercy. -->
 
 <head>
-<title>makebook | Impress pdfs for printing, folding, and
-binding</title>
+<title>makebook | Downloading and Installation</title>
 <meta charset="UTF-8" />
 <meta name="description" content="makebook, a
 	POSIX-compatible shell script for impressing pdf pages
@@ -48,32 +47,31 @@ AMDG
 
 <div class="mainpart">
 
-<h1>Makebook:  For Printing, Folding, and Binding</h1>
+<h1>Downloading and Installation</h1>
 
-<p><span class="fl">M</span>akebook is a script for
-<em>impressing</em> pdf pages; in other words, for taking a
-normal pdf and rearranging them to place multiple pages on
-the same target sheet, so that they can be printed, folded,
-and bound.  Although it is a simple script (less than seven
-hundred lines at last count), it's still extremely
-configurable and quite powerful for its task.</p>
+<p><span class="fl">F</span>ortunately, being a shell
+script, makebook is pretty easy to download and install.
+We'll go over each task in turn.</p>
 
-<p>Makebook is written entirely in POSIX-compatible shell,
-usually called with /bin/sh.  As such, it's about as
-portable as a shell script can be.  It does have a few <a
-href="depends.html">dependencies</a>, to take advantage of
-several very powerful tools that already exist for
-manipulating pdfs.  It also has very complete <a
-href="docs.html">documentation</a>, to help you learn how to
-use its many configuration options.</p>
+<p>The code for makebook can be found pretty directly on <a
+href="https://www.github.com">Github</a>:</p>
 
-<p>Finally, though it seems unlikely that makebook would
-ever be a vector for an attack, it goes out of its way to
-make that impossible.  Temporary files are randomly named in
-order to prevent race conditions, new files are set with
-restrictive permissions, and so forth.  Makebook is a
-program that you can trust.</p>
+<center>
+<a href="https://github.com/dgoodmaniii/makebook">Makebook
+Code on Github</a>
+</center>
 
+<p>If you know <a href="https://git-scm.com">git</a> and are
+so inclined, you can simply clone the repository.
+Otherwise, you can use the "Clone or download" button to
+download a zip archive.</p>
+
+<p>Move the zip archive to the location where you'd like to
+install makebook; extract it, then run "make doc" and "make
+install".</p>
+
+<p>That's it; you're now finished.  Run makebook to your
+heart's content.</p>
 
 </div> <!-- end mainpart -->
 
