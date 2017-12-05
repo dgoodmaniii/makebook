@@ -295,7 +295,7 @@ then
 	echo '\\thispagestyle{empty}' >> blank.tex
 	echo "\usepackage[paperwidth=${SRC_PAGE_WIDTH}bp,paperheight="${SRC_PAGE_HEIGHT}bp"]{geometry}" >> blank.tex
 echo '\\begin{document}' >> blank.tex
-echo "\quad \end{document}" >> blank.tex
+echo "\quad \\\\end{document}" >> blank.tex
 	if [ $VERBOSE -eq 1 ]
 	then
 		echo "CREATING blank page to fill sections...";
@@ -607,7 +607,8 @@ echo '\\begin{document}' >> ${OUTFILE_NAME%.pdf}.tex
 echo "\includepdf[nup=$NUP,pages=-,turn=false,columnstrict,
 	noautoscale,delta=${HORIZ_DELTA}bp ${VERT_DELTA}bp,
 	offset=${HORIZ_OFFSET}bp ${VERT_OFFSET}bp,scale=${SCALE}]
-	{./"$NEW_FILE_NAME"}\end{document}" >> ${OUTFILE_NAME%.pdf}.tex
+	{./"$NEW_FILE_NAME"}" >> ${OUTFILE_NAME%.pdf}.tex
+echo "\\\\end{document}" >> ${OUTFILE_NAME%.pdf}.tex
 if [ $VERBOSE -eq 1 ]
 then
 	echo "IMPOSING sections..."
