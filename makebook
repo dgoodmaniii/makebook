@@ -294,14 +294,13 @@ then
 	echo "\documentclass{article}" > blank.tex
 	echo '\\thispagestyle{empty}' >> blank.tex
 	echo "\usepackage[paperwidth=${SRC_PAGE_WIDTH}bp,paperheight="${SRC_PAGE_HEIGHT}bp"]{geometry}" >> blank.tex
-echo '\\begin{document}' >> blank.tex
-echo "\quad \\\\end{document}" >> blank.tex
+	echo '\\begin{document}' >> blank.tex
+	echo "\quad \\\\end{document}" >> blank.tex
 	if [ $VERBOSE -eq 1 ]
 	then
 		echo "CREATING blank page to fill sections...";
 	fi
 	pdflatex blank.tex > /dev/null 2&>1
-	rm blank.aux blank.log blank.tex
 fi
 # now insert blank pages as needed, preferring the back for
 # odd numbers by default, front if stated
@@ -620,6 +619,15 @@ then
 fi
 rm ${OUTFILE_NAME%.pdf}.tex ${OUTFILE_NAME%.pdf}.aux \
 	${OUTFILE_NAME%.pdf}.log "$NEW_FILE_NAME"
+if [ -e "./blank.tex" ]; then
+	rm ./blank.tex
+fi
+if [ -e "./blank.aux" ]; then
+	rm ./blank.aux
+fi
+if [ -e "./blank.log" ]; then
+	rm ./blank.log
+fi
 if [ $VERBOSE -eq 1 ]
 then
 	echo "`expr $NUM_PAGES + $NUM_BLANKS` pages imposed in
